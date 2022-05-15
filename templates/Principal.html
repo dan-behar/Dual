@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+  <!-- Resumen -->
+  <div class="w3-container" id="Resumen" style="margin-top:75px">
+    <h1 class="w3-xxxlarge w3-text-red"><strong>Funcion Objetivo</strong></h1>
+    <hr style="width:50px;border:5px solid red" class="w3-round">
+    <form method="POST" action="">
+      <div class="table">
+        <table id="t01">
+        <tr>
+          <th id="ValorX">Valor X</th>
+          <th id="Valory">Valor Y</th> 
+          <th id="RX">Restriccion X</th>
+          <th id="RY">Restriccion Y</th>
+          <th id="MoM">Max o Min</th>
+          <th id="Res">Cant Restricciones</th>
+        </tr>
+        <tr>
+          <td><input type="text" placeholder="Valor X" required="" id="valx" name="valx"/></td>
+          <td><input type="text" placeholder="Valor Y" required="" id="valy" name="valy"/></td>
+          <td><select name="resx" id="resx">
+            <option value="1">Mayor igual que</option>
+            <option value="-1">Menor igual que</option>
+            <option value="0">Indf</option>
+          </select></td>
+          <td><select name="resy" id="resy">
+            <option value="1">Mayor igual que</option>
+            <option value="-1">Menor igual que</option>
+            <option value="0">Indf</option>
+          </select></td>
+          <td><select name="oper" id="oper">
+            <option value="1">Max</option>
+            <option value="0">Min</option>
+          </select></td>
+          <td><input type="text" placeholder="Restricciones" required="" id="res" name="res"/></td>
+        </tr>
+      </table>
+      </div>
+      <div>
+        <a href="/funcion">
+        <input type="submit" value="Comenzar" />
+        </a>
+      </div>
+    </form>
+  </div>
+
+{% endblock %} 

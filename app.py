@@ -1,20 +1,7 @@
 from flask import Flask, render_template, request, url_for, redirect
 from jinja2 import Template, FileSystemLoader, Environment
-from RegLin import reglin, grafreglin, imagen
-from datetime import datetime
-from datos import Datos
-from NewInter import Newton
-from Integracion import TrapecioM
-from derivada import derivada
-from lagrange import LagrangePol
-from numpy import arange 
-from resumenest import Media,Mediana,Moda,Maximo,Minimo,Desviacion
-import matplotlib.pyplot as plt
-import numpy as np
-import sympy as sym
-import pathlib
-
-# Convertimos un string con formato <día>/<mes>/<año> en datetime
+from matplotlib import container
+from Dual import Ingreso
 
 domain = "0.0.0.0:5000/"
 templates = FileSystemLoader('templates')
@@ -22,46 +9,72 @@ environment = Environment(loader = templates)
 
 app = Flask(__name__)
 
-global name 
-name = "" 
-global hora 
-hora = 0.0 
-global muestra 
-muestra = []
-global data
-data = '' 
-global horaMuestra 
-horaMuestra = []
-global glucoMuestra 
-glucoMuestra = []
-global consMuestra 
-consMuestra = []
-global fecha1
-fecha1 = ""
-global fecha2
-fecha2 = ""
-global fechaMuestra
-fechaMuestra = []
-global glucoData
-glucoData = []
+global contar
+contar = 1
+global valx
+valx = 0 
+global valy
+valy = 0 
+global resx
+resx = 0 
+global resy
+resy = 0 
+global oper
+oper = 0 
+global res
+res = 0 
+global valxr
+valxr = []
+global valyr
+valyr = []
+global resr
+resr = []
+global resur
+resur = [] 
 
-
-
-@app.route("/", methods=["GET", "POST"])
-def register():
-    global name
-    global hora 
-    global data 
+@app.route("/funcion", methods=["GET", "POST"])
+def register(): 
     if request.method == "POST":
-        name = request.form['name']
-        hora = request.form['appt']
+        global valx, valy, resx, resy, oper, res
+        valx = float(request.form['valx'])
+        valy = float(request.form['valy'])
+        resx = float(request.form['resx'])
+        resy = float(request.form['resy'])
+        oper = float(request.form['oper'])
+        res = float(request.form['res'])
 
-        (h, m) = hora.split(':')
-        hora = int(h) + int(m)/60 
-        data = Datos('datos.xlsx',hora)
-        return redirect("/rango", 301)
-    return render_template("register.html")
+        return redirect("/restr", 301)
+    return render_template("Principal.html")
 
+@app.route("/restr", methods=["GET", "POST"])
+def ta():
+    mssg = "Agregar"
+    if request.method == "POST":
+        global valxr, valyr, resr, resur, contar
+        if contar == 1:
+            valxr = []
+            valyr = []
+            resr = []
+            resur = []
+        contar = contar + 1
+        valxr.append(float(request.form['valxr']))
+        valyr.append(float(request.form['valyr']))
+        resr.append(request.form['resr'])
+        resur.append(float(request.form['resur']))
+
+        if contar < res:
+            mssg = "Agregar"
+            return render_template("Restricciones.html",mssg=mssg, contar=contar)
+        elif contar == res:
+            mssg = "Finalizar"
+            return render_template("Restricciones.html",mssg=mssg, contar=contar)
+        else:
+            contar = 1
+            Ingreso(res,oper,resr,valxr,valyr,resur,valx,valy,resx,resy)
+            return redirect("/funcion", 301)
+    return render_template("Restricciones.html",mssg=mssg, contar=contar)
+
+"""
 @app.route("/rango", methods=["GET", "POST"])
 def rango():
     global data
@@ -137,18 +150,6 @@ def gra():
             fig.savefig(ruta)
 
     return render_template("graficas.html",name=name)
-
-@app.route("/tabla", methods=["GET", "POST"])
-def ta():
-    global horaMuestra
-    global glucoMuestra
-    global consMuestra
-    global fechaMuestra
-    global name
-    cambio=derivada(horaMuestra,glucoMuestra)
-    for i in range(len(cambio)):
-        cambio[i]=round(cambio[i],4)
-    return render_template("tabla.html",cambio=cambio,fecha=fechaMuestra,condicion=consMuestra,name=name)
 
 @app.route("/aceleracion", methods=["GET", "POST"])
 def ace():
@@ -243,6 +244,8 @@ def res():
     fig.savefig(ruta)
     
     return render_template("resumen.html",media=round(media,4),mediana=mediana,moda=moda[0],maximo=maximo,minimo=minimo,desviacion=round(desviacion,4),name=name)
+
+"""
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0",debug=True)
