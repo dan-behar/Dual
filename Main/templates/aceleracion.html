@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<!-- Aceleracion -->
+    <div class="w3-container" id="Aceleracion" style="margin-top:75px">
+    <h1 class="w3-xxxlarge w3-text-red"><strong>Aceleración Metabólica de Glucosa</strong></h1>
+    <hr style="width:50px;border:5px solid red" class="w3-round">
+    <p>¡Aceleraciones de glucosa en sangre!</p>
+  </div>
+  <div class="w3-row-padding">
+    <div class="w3-half w3-margin-bottom">
+      <ul class="w3-ul w3-light-grey w3-center">
+        <li class="w3-dark-grey w3-xlarge w3-padding-32">Mínima</li>
+        <li class="w3-padding-16">{{minimo}}</li>
+      </ul>
+    </div>
+        
+    <div class="w3-half">
+      <ul class="w3-ul w3-light-grey w3-center">
+        <li class="w3-red w3-xlarge w3-padding-32">Máxima</li>
+        <li class="w3-padding-16">{{maximo}}</li>
+      </ul>
+      <br><br><br><br><br>
+    </div>
+  </div>
+
+{% endblock %} 

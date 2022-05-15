@@ -1,0 +1,85 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+
+  <!-- Header -->
+  <div class="w3-container" style="margin-top:80px" id="Inicio">
+    <h1 class="w3-jumbo"><strong>Glucose Monitoring Program</strong></h1>
+    <h1 class="w3-xxxlarge w3-text-red"><strong>Inicio</strong></h1>
+    <hr style="width:50px;border:5px solid red" class="w3-round">
+  </div>
+  
+  <!-- Photo grid (modal) -->
+  <div class="w3-row-padding">
+    <div class="w3-half">
+      <img src="/static/diabetes.jpeg" style="width:100%" onclick="onClick(this)" alt="diabetes">
+      <img src="/static/gadgets.jpeg" style="width:100%" onclick="onClick(this)" alt="gadgets">
+    </div>
+
+    <div class="w3-half">
+      <img src="/static/sangre.png" style="width:100%" onclick="onClick(this)" alt="sangre">
+      <img src="/static/fight.png" style="width:100%" onclick="onClick(this)" alt="fight">
+    </div>
+  </div>
+
+  <!-- Modal for full size images on click-->
+  <div id="modal01" class="w3-modal w3-black" style="padding-top:0" onclick="this.style.display='none'">
+    <span class="w3-button w3-black w3-xxlarge w3-display-topright">×</span>
+    <div class="w3-modal-content w3-animate-zoom w3-center w3-transparent w3-padding-64">
+      <img id="img01" class="w3-image" alt="imagen">
+      <p id="caption"></p>
+    </div>
+  </div>
+
+
+<!-- Rango -->
+<div class="w3-container" id="Rango" style="margin-top:75px">
+    <h1 class="w3-xxxlarge w3-text-red"><strong>Rango de Análisis</strong></h1>
+    <hr style="width:50px;border:5px solid red" class="w3-round">
+    <p>Seleccione un rango de fechas para poder llevar a cabo el análisis.</p><br>
+    <form method="POST" action="">
+      <div class="w3-row-padding">
+        <div class="w3-half">
+          <div id="date1" class="md-form md-outline input-with-post-icon datepicker">
+            <label for="date1">Seleccione fecha de inicio:</label>
+            <input type="date" placeholder="dd-mm-yyyy" value="" min="1997-01-01" max="2030-12-31" name="date1">
+          </div>
+        </div>
+
+        <div class="w3-half">
+          <div id="date2" class="md-form md-outline input-with-post-icon datepicker">
+            <label for="date2">Seleccione fecha de fin:</label>
+            <input type="date" placeholder="dd-mm-yyyy" value="" min="1997-01-01" max="2030-12-31" name="date2">
+          </div>
+        </div>
+      </div>
+      <br><br>
+      <button class="w3-button w3-block w3-padding-large w3-red w3-margin-bottom" type="submit" onclick="clickAlert()">Fijar Rango</button>
+    </form>
+    <br>
+    
+    {% if fecha1 %}
+
+    <h5>Rango de fechas actual: {{fecha1}}  a  {{fecha2}}</h5>
+    
+    {% endif %}
+    <p>¡Esta sección es INDISPENSALE!</p>
+  </div>
+
+
+  <script>
+    // Modal Image Gallery
+    function onClick(element) {
+      document.getElementById("img01").src = element.src;
+      document.getElementById("modal01").style.display = "block";
+      var captionText = document.getElementById("caption");
+      captionText.innerHTML = element.alt;
+    }
+    function clickAlert(){
+      alert("Ha ingresado el rango de fechas exitosamente! Puede proceder a ver los resultados del Análisis!")
+      }
+  </script>
+
+
+{% endblock %} 

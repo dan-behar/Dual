@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+
+  <!-- Meta -->
+  <div class="w3-container" id="Meta" style="margin-top:75px">
+    <h1 class="w3-xxxlarge w3-text-red"><strong>Glucosa-Meta</strong></h1>
+    <hr style="width:50px;border:5px solid red" class="w3-round">
+    <p>¡Ten una idea! Ingresa el nivel de glucosa que te gustaría alcanzar, y nosotros calculamos aproximadamente en cuánto tiempo llegarás a la meta.</p>
+    <p><strong>Se tomará en cuenta el tiempo entre cada medicamento y la medición del glucómetro.</strong></p>
+    <form method="POST" action="">
+      <div class="w3-section">
+        <label>Nivel Específico de Glucosa:</label>
+        <input class="w3-input w3-border" type="text" name="meta" required>
+      </div>
+      <button type="submit" class="w3-button w3-block w3-padding-large w3-red w3-margin-bottom">Calcular</button>
+    </form>
+    <center>
+      <br><br>
+      <div class="card">
+        <div class="container">
+          <h2><strong>{{tiempo}} horas</strong></h2> 
+          <p>*para alcanzar meta</p> 
+        </div>
+      </div>
+      </center>  
+  </div>
+
+{% endblock %} 

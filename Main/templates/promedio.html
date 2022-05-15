@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+  <!-- Promedio -->
+  <div class="w3-container" id="Promedio" style="margin-top:75px">
+    <h1 class="w3-xxxlarge w3-text-red"><strong>Glucosa Promedio</strong></h1>
+    <hr style="width:50px;border:5px solid red" class="w3-round">
+    <p>Promedio de glucosa durante el rango de tiempo seleccionado...</p>
+    <center>
+    <div class="card">
+      <div class="container">
+        <h2><strong>{{res}}</strong></h2> 
+        <p>*glucosa en sangre</p> 
+      </div>
+    </div>
+    </center>
+    <br><br><br><br><br><br><br>
+  </div>
+
+{% endblock %} 

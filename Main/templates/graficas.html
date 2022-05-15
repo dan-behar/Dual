@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+    <div class="w3-container" id="Graficas" style="margin-top:75px">
+        <h1 class="w3-xxxlarge w3-text-red"><strong>Gráficas</strong></h1>
+        <hr style="width:50px;border:5px solid red" class="w3-round">
+    </div>
+
+  
+    <h3 class="text-center">Escoge el tipo de grafica que se desee: </h3>
+    <form method="POST" action="" class="justify-content-center">
+      <center>
+        <div class="form-group">
+              <select name="grafica" type="text" class="form-select" aria-label="Default select example">
+                <option selected>Selecciona</option>
+                <option value="a">Diagrama de dispersión</option>
+                <option value="b">Polionomio interpolado</option>
+              </select>
+              <br>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg">Mandar</button>
+      </center>
+    </form>
+    <p>Comparación Glucosa-Tiempo</p>
+    <img src="/static/grafica.png" style="width:100%" onclick="onClick(this)" alt="graficaRegLin">
+{% endblock %} 
