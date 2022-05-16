@@ -386,3 +386,56 @@ def DualOp():
                     variables_DUAL[r - extras].append(0)  
                     s = s + 1
             r = r + 1
+
+def Mover_M():
+    var = 0
+    x = variables[0]
+    for xs in range(len(x)):
+        print(f"la xs es: {xs}")
+        verS = x[xs]
+        if verS.find('A') != -1:
+            print("Encontre una A")
+            columna_A = xs
+            p = 1 
+            while p <= cant_ecuaciones:
+                print(f"el valor: {variables[p][columna_A]}, p = {p}, columna_A = {columna_A}")
+                if variables[p][columna_A] == 1: # si es 1, encontre la fila. p es la fila.
+                    print("Encontre la fial que lleva la A")
+                    ar_res = []
+                    p2 = 1
+                    while p2 < len(variables[0]):
+                        resta = (variables[p][p2] * variables[-1][columna_A])
+                        variables[-1][p2] = variables[-1][p2] - resta
+                        p2 = p2 + 1
+                    p = p + 1
+                else:
+                    p = p + 1
+        else:
+            print("No es una A")
+
+def Mover_M2():
+    var = 0
+    x = variables_DUAL[0]
+    for xs in range(len(x)):
+        print(f"la xs es: {xs}")
+        verS = x[xs]
+        if verS.find('A') != -1:
+            print("Encontre una A")
+            columna_A = xs
+            p = 1 
+            while p <= cant_ecuacionesD:
+                print(f"el valor: {variables_DUAL[p][columna_A]}, p = {p}, columna_A = {columna_A}")
+                if variables_DUAL[p][columna_A] == 1: # si es 1, encontre la fila. p es la fila.
+                    print("Encontre la fial que lleva la A")
+                    ar_res = []
+                    p2 = 1
+                    while p2 < len(variables_DUAL[0]):
+                        resta = (variables_DUAL[p][p2] * variables_DUAL[-1][columna_A])
+                        variables_DUAL[-1][p2] = variables_DUAL[-1][p2] - resta
+                        p2 = p2 + 1
+                    p = p + 1
+                else:
+                    p = p + 1
+        else:
+            print("No es una A")
+
