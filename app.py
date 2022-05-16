@@ -69,7 +69,9 @@ def ta():
             return render_template("Restricciones.html",mssg=mssg, contar=contar)
         else:
             contar = 1
-            Ingreso(res,oper,resr,valxr,valyr,resur,valx,valy,resx,resy)
+            variables,variables_DUAL = Ingreso(res,oper,resr,valxr,valyr,resur,valx,valy,resx,resy)
+            print(variables)
+            print(variables_DUAL)
             return redirect("/funcion", 301)
     return render_template("Restricciones.html",mssg=mssg, contar=contar)
 

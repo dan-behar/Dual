@@ -198,8 +198,10 @@ def Ingreso(cant_ecuaciones, problema, signos, vector_x, vector_y, vector_r, X_I
         cant_variablesD = cant_ecuaciones
         while vaas <= (cant_ecuaciones + 2): # guardo el nombre de las variables.Si es <= uso s y si es >= uso a. 
             if vaas <= cant_ecuaciones:
-                variables_DUAL[0].append(input(f"Ingrese la variables No.{vaas}:  "))
-                vaas = vaas + 1
+                for i in range(cant_ecuaciones):
+                    ingresos_ = 'y'+(i+1)
+                    variables_DUAL[0].append(ingresos_)
+                vaas = cant_ecuaciones + 1
             elif vaas == (cant_ecuaciones + 1):
                 variables_DUAL[0].append('R')
                 vaas = vaas + 1
@@ -386,11 +388,12 @@ def Ingreso(cant_ecuaciones, problema, signos, vector_x, vector_y, vector_r, X_I
                         variables_DUAL[r - extras].append(0)  
                         s = s + 1
                 r = r + 1
-        Mover_M(variables,cant_ecuaciones,variables_DUAL,cant_ecuacionesD,cant_variables,problema)
-        print(variables)
+        Simplex_P(variables,cant_ecuaciones,variables_DUAL,cant_ecuacionesD,cant_variables,problema)
+        Simplex_D(variables_DUAL,cant_ecuacionesD,cant_variablesD,problema)
+        return variables,variables_DUAL
 
 
-def Mover_M(variables,cant_ecuaciones,variables_DUAL,cant_ecuacionesD,cant_variables,problema):
+def Simplex_P(variables,cant_ecuaciones,variables_DUAL,cant_ecuacionesD,cant_variables,problema):
     var = 0
     x = variables[0]
     for xs in range(len(x)):
@@ -516,9 +519,94 @@ def Mover_M(variables,cant_ecuaciones,variables_DUAL,cant_ecuacionesD,cant_varia
     if problema == 0:
         variables[-1][cant_variables + 1] = variables[-1][cant_variables + 1] * -1 
 
-"""MATRIZ RESULTANTE Primal: 
-"""
-def matriz_primal():
+def Simplex_D(variables_DUAL,cant_ecuacionesD,cant_variablesD,problema):
+  #cant_ecuacionesD
+  #cant_variablesD
+  for i in range(len(variables_DUAL)):
+      print(variables_DUAL[i]) 
+  print(variables_DUAL[cant_ecuacionesD+1])
+  s_top = 0
+  while(s_top != 1):
+    track = variables_DUAL[-1][1:(cant_variablesD+1)]
+    track2 = variables_DUAL[-1][(cant_variablesD+2):]
+    for t in track2:
+      track.append(t)
+    pivote = min(track)
+    if pivote < 0:
+      pos_piv = variables_DUAL[-1].index(pivote)
+      print(f'más negativo es: {pivote}')
+      print(f'columna del pivote es: {pos_piv}')
+      col_vdivpc = []
+      fila = 1
+      while(fila <= cant_ecuacionesD):
+        value = variables_DUAL[fila][cant_variablesD+1]
+        pivot_colum = variables_DUAL[fila][pos_piv]
+        print(f'value: {value}')
+        print(f'pivot_colum: {pivot_colum}')
+        if pivot_colum > 0 and value != 0:
+          v = value/pivot_colum
+          col_vdivpc.append(v)
+        elif pivot_colum < 0 or value < 0:
+          v = value/pivot_colum
+          col_vdivpc.append(v)
+        else:
+          col_vdivpc.append(100000000.0)
+        fila = fila + 1
+      #print(col_vdivpc)
+      clave = col_vdivpc[0]
+      for i in range(1,len(col_vdivpc)):
+        clave = min(clave, col_vdivpc[i])
+        #print(f'este va siendo el clave despues de comparar {clave}')
+      #AQUI VA LO DE BUSCAR LA QUE GENERE MENOS NEGATIVOS
+      #...
+      #----------
+      if clave == 100000000.0:
+        break
+      fila_clave =  col_vdivpc.index(clave) + 1
+      print(f'la fila clave: {fila_clave}')
+      op_arr = 1
+      #CAMBIAR FILA CLAVE
+      s_top_col = 1
+      fac_div_clave = variables_DUAL[fila_clave][pos_piv]
+      while s_top_col < (len(variables_DUAL[0])):
+        #print(f'divido {variables[fila_clave][s_top_col]} dentro de: {fac_div}')
+        variables_DUAL[fila_clave][s_top_col] = variables_DUAL[fila_clave][s_top_col] / fac_div_clave
+        s_top_col = s_top_col + 1
+      #print(variables_DUAL[fila_clave])
+      variables_DUAL[fila_clave][0] = variables_DUAL[0][pos_piv]
+      while op_arr <= cant_ecuacionesD+1:
+        #print(f'el op_arr: {op_arr}')
+        if fila_clave != op_arr:
+          piv_col_n = variables_DUAL[op_arr][pos_piv]
+          if piv_col_n != 0:# debo restarle la columna clave por su piv_col_n
+            print('Entre a > 0')
+            s_top_col = 1
+            ar_res = []
+            while s_top_col < (len(variables_DUAL[0])):
+              ar_res.append(variables_DUAL[fila_clave][s_top_col] * piv_col_n)
+              s_top_col = s_top_col + 1 
+            #print(f'este es el ar_res: {ar_res}')
+            s_top_col = 1
+            while s_top_col < (len(variables_DUAL[0])):
+              variables_DUAL[op_arr][s_top_col] = variables_DUAL[op_arr][s_top_col] - ar_res[s_top_col-1]
+              #variables[op_arr][s_top_col] = round(variables[op_arr][s_top_col], 5)
+              s_top_col = s_top_col + 1 
+            op_arr = op_arr + 1
+          else:
+            op_arr = op_arr + 1
+            pass # esa fila no cambia, se queda igual
+        else:
+          # estoy en la fila clave.
+          op_arr = op_arr + 1
+      for i in range(len(variables_DUAL)):
+        print(variables_DUAL[i]) 
+    else:
+      s_top = 1 #hasta que todas las variables(no S ni A) sean no negativas  
+
+  if problema == 0:
+    variables_DUAL[-1][cant_variablesD + 1] = variables_DUAL[-1][cant_variablesD + 1] * -1
+    
+
   for i in range(len(variables)):
       print(variables[i]) 
   for x in range(len(variables)):
