@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, url_for, redirect
 from jinja2 import Template, FileSystemLoader, Environment
-from matplotlib import container
 from Dual import Ingreso
 
 domain = "0.0.0.0:5000/"
