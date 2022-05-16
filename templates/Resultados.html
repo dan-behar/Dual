@@ -4,16 +4,15 @@
 
   <!-- Resumen -->
   <div class="w3-container" id="Resumen" style="margin-top:75px">
-    <h1 class="w3-xxxlarge w3-text-red"><strong>Restriccion # {{contar}}</strong></h1>
+    <h1 class="w3-xxxlarge w3-text-red"><strong>Resultados</strong></h1>
     <hr style="width:50px;border:5px solid red" class="w3-round">
     <form method="POST" action="">
       <div class="table">
         <table id="t01">
         <tr>
-          <th id="ValorX">Valor X</th>
-          <th id="Valory">Valor Y</th> 
-          <th id="RX">Restriccion</th>
-          <th id="Res">Resultado/th>
+          {% for j in variables %}
+            <th id="info">{{variable[0][j]}}</th>
+          {% endfor %}
         </tr>
         <tr>
           <td><input type="text" placeholder="Valor X" required="" id="valxr" name="valxr"/></td>
