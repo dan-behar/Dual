@@ -8,6 +8,10 @@ environment = Environment(loader = templates)
 
 app = Flask(__name__)
 
+global variables
+variables = 0
+global variables_DUAL
+variables_DUAL = 0
 global contar
 contar = 1
 global valx
@@ -49,7 +53,7 @@ def register():
 def ta():
     mssg = "Agregar"
     if request.method == "POST":
-        global valxr, valyr, resr, resur, contar
+        global valxr, valyr, resr, resur, contar, variables, variables_DUAL
         if contar == 1:
             valxr = []
             valyr = []

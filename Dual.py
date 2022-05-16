@@ -199,7 +199,8 @@ def Ingreso(cant_ecuaciones, problema, signos, vector_x, vector_y, vector_r, X_I
         while vaas <= (cant_ecuaciones + 2): # guardo el nombre de las variables.Si es <= uso s y si es >= uso a. 
             if vaas <= cant_ecuaciones:
                 for i in range(cant_ecuaciones):
-                    ingresos_ = 'y'+(i+1)
+                    num = i + 1
+                    ingresos_ = f"y{num}"
                     variables_DUAL[0].append(ingresos_)
                 vaas = cant_ecuaciones + 1
             elif vaas == (cant_ecuaciones + 1):
@@ -522,9 +523,9 @@ def Simplex_P(variables,cant_ecuaciones,variables_DUAL,cant_ecuacionesD,cant_var
 def Simplex_D(variables_DUAL,cant_ecuacionesD,cant_variablesD,problema):
   #cant_ecuacionesD
   #cant_variablesD
-  for i in range(len(variables_DUAL)):
-      print(variables_DUAL[i]) 
-  print(variables_DUAL[cant_ecuacionesD+1])
+  #for i in range(len(variables_DUAL)):
+      #print(variables_DUAL[i]) 
+  #print(variables_DUAL[cant_ecuacionesD+1])
   s_top = 0
   while(s_top != 1):
     track = variables_DUAL[-1][1:(cant_variablesD+1)]
@@ -534,15 +535,15 @@ def Simplex_D(variables_DUAL,cant_ecuacionesD,cant_variablesD,problema):
     pivote = min(track)
     if pivote < 0:
       pos_piv = variables_DUAL[-1].index(pivote)
-      print(f'más negativo es: {pivote}')
-      print(f'columna del pivote es: {pos_piv}')
+      #print(f'más negativo es: {pivote}')
+      #print(f'columna del pivote es: {pos_piv}')
       col_vdivpc = []
       fila = 1
       while(fila <= cant_ecuacionesD):
         value = variables_DUAL[fila][cant_variablesD+1]
         pivot_colum = variables_DUAL[fila][pos_piv]
-        print(f'value: {value}')
-        print(f'pivot_colum: {pivot_colum}')
+        #print(f'value: {value}')
+        #print(f'pivot_colum: {pivot_colum}')
         if pivot_colum > 0 and value != 0:
           v = value/pivot_colum
           col_vdivpc.append(v)
@@ -563,7 +564,7 @@ def Simplex_D(variables_DUAL,cant_ecuacionesD,cant_variablesD,problema):
       if clave == 100000000.0:
         break
       fila_clave =  col_vdivpc.index(clave) + 1
-      print(f'la fila clave: {fila_clave}')
+      #print(f'la fila clave: {fila_clave}')
       op_arr = 1
       #CAMBIAR FILA CLAVE
       s_top_col = 1
@@ -579,7 +580,7 @@ def Simplex_D(variables_DUAL,cant_ecuacionesD,cant_variablesD,problema):
         if fila_clave != op_arr:
           piv_col_n = variables_DUAL[op_arr][pos_piv]
           if piv_col_n != 0:# debo restarle la columna clave por su piv_col_n
-            print('Entre a > 0')
+            #print('Entre a > 0')
             s_top_col = 1
             ar_res = []
             while s_top_col < (len(variables_DUAL[0])):
@@ -598,35 +599,10 @@ def Simplex_D(variables_DUAL,cant_ecuacionesD,cant_variablesD,problema):
         else:
           # estoy en la fila clave.
           op_arr = op_arr + 1
-      for i in range(len(variables_DUAL)):
-        print(variables_DUAL[i]) 
+      #for i in range(len(variables_DUAL)):
+        #print(variables_DUAL[i]) 
     else:
       s_top = 1 #hasta que todas las variables(no S ni A) sean no negativas  
 
   if problema == 0:
     variables_DUAL[-1][cant_variablesD + 1] = variables_DUAL[-1][cant_variablesD + 1] * -1
-    
-
-  for i in range(len(variables)):
-      print(variables[i]) 
-  for x in range(len(variables)):
-      print(f'Variable: {variables[x][0]} --- resultado: {variables[x][cant_variables + 1]}')
-  print('Estos son los precios sombra')
-  var = 0
-  x = variables[0]
-  for xs in range(len(x)):
-    #print(f"la xs es: {xs}")
-    #print(f'Variable: {variables[-1][xs]}')
-    voy = x[xs]
-    atras = x[xs-1]
-    #variable concatenada - vector 
-    if (voy.find('a') != -1 or voy.find('s') != -1):
-      if variables[-1][xs] > 1000000:
-        print(f'Variable: {variables[0][xs]} --- resultado: {1000000 - variables[-1][xs]}')
-      else:
-        print(f'Variable: {variables[0][xs]} --- resultado: {variables[-1][xs]}')
-    elif (voy.find('A') != -1 and atras.find('A') != -1):
-      if variables[-1][xs] < 1000000:
-        print(f'Variable: {variables[0][xs]} --- resultado: {1000000 - variables[-1][xs]}')
-      else:
-        print(f'Variable: {variables[0][xs]} --- resultado: {variables[-1][xs]}')
