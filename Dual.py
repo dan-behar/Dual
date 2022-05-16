@@ -412,8 +412,6 @@ def Mover_M():
                     p = p + 1
         else:
             print("No es una A")
-
-def Mover_M2():
     var = 0
     x = variables_DUAL[0]
     for xs in range(len(x)):
@@ -439,3 +437,76 @@ def Mover_M2():
         else:
             print("No es una A")
 
+def Oper():
+    for i in range(len(variables)):
+        print(variables[i]) 
+    print(variables[cant_ecuaciones+1])
+    s_top = 0
+    while(s_top != 1):
+        track = variables[-1][1:(cant_variables+1)]
+        track2 = variables[-1][(cant_variables+2):]
+        for t in track2:
+            track.append(t)
+        pivote = min(track)
+        if pivote < 0:
+            pos_piv = variables[-1].index(pivote)
+            print(f'más negativo es: {pivote}')
+            print(f'columna del pivote es: {pos_piv}')
+            col_vdivpc = []
+            fila = 1
+            while(fila <= cant_ecuaciones):
+                value = variables[fila][cant_variables+1]
+                pivot_colum = variables[fila][pos_piv]
+                print(f'value: {value}')
+                print(f'pivot_colum: {pivot_colum}')
+                if pivot_colum > 0 and value != 0:
+                    v = value/pivot_colum
+                    col_vdivpc.append(v)
+                else:
+                    col_vdivpc.append(100000000.0)
+                fila = fila + 1
+            clave = col_vdivpc[0]
+            for i in range(1,len(col_vdivpc)):
+                clave = min(clave, col_vdivpc[i])
+            if clave == 100000000.0:
+                break
+            fila_clave =  col_vdivpc.index(clave) + 1
+            print(f'la fila clave: {fila_clave}')
+            op_arr = 1
+            #CAMBIAR FILA CLAVE
+            s_top_col = 1
+            fac_div_clave = variables[fila_clave][pos_piv]
+            while s_top_col < (len(variables[0])):
+                variables[fila_clave][s_top_col] = variables[fila_clave][s_top_col] / fac_div_clave
+                s_top_col = s_top_col + 1
+            variables[fila_clave][0] = variables[0][pos_piv]
+            while op_arr <= cant_ecuaciones+1:
+                if fila_clave != op_arr:
+                    piv_col_n = variables[op_arr][pos_piv]
+                    if piv_col_n != 0:# debo restarle la columna clave por su piv_col_n
+                        print('Entre a > 0')
+                        s_top_col = 1
+                        ar_res = []
+                        while s_top_col < (len(variables[0])):
+                            ar_res.append(variables[fila_clave][s_top_col] * piv_col_n)
+                            s_top_col = s_top_col + 1 
+                        #print(f'este es el ar_res: {ar_res}')
+                        s_top_col = 1
+                        while s_top_col < (len(variables[0])):
+                            variables[op_arr][s_top_col] = variables[op_arr][s_top_col] - ar_res[s_top_col-1]
+                            #variables[op_arr][s_top_col] = round(variables[op_arr][s_top_col], 5)
+                            s_top_col = s_top_col + 1 
+                        op_arr = op_arr + 1
+                    else:
+                        op_arr = op_arr + 1
+                        pass # esa fila no cambia, se queda igual
+                else:
+                    # estoy en la fila clave.
+                    op_arr = op_arr + 1
+            for i in range(len(variables)):
+                print(variables[i]) 
+        else:
+            s_top = 1 #hasta que todas las variables(no S ni A) sean no negativas  
+
+    if problema == 0:
+        variables[-1][cant_variables + 1] = variables[-1][cant_variables + 1] * -1 
