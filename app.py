@@ -40,7 +40,7 @@ def register():
         resx = float(request.form['resx'])
         resy = float(request.form['resy'])
         oper = float(request.form['oper'])
-        res = float(request.form['res'])
+        res = int(request.form['res'])
 
         return redirect("/restr", 301)
     return render_template("Principal.html")

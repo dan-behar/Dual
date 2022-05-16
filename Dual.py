@@ -206,7 +206,7 @@ def Ingreso(cant_ecuaciones, problema, signos, vector_x, vector_y, vector_r, X_I
             else:
                 vaas = vaas + 1
                 for t in vector_signos:
-                    print(t)
+                    #print(t)
                     if t == -1:
                         if problema == 1:
                             variables_DUAL[0].append(f's{var_apar}')
@@ -368,7 +368,7 @@ def Ingreso(cant_ecuaciones, problema, signos, vector_x, vector_y, vector_r, X_I
                     if s <= cant_variablesD:
                         n = variables[fila_D][columna_D+1]
                         fila_D = 1 + fila_D
-                        print(variables[fila_D][columna_D+1])
+                        #print(variables[fila_D][columna_D+1])
                         if problema == 1:
                             n = n * -1
                         n = n * -1
@@ -394,16 +394,16 @@ def Mover_M(variables,cant_ecuaciones,variables_DUAL,cant_ecuacionesD,cant_varia
     var = 0
     x = variables[0]
     for xs in range(len(x)):
-        print(f"la xs es: {xs}")
+        #print(f"la xs es: {xs}")
         verS = x[xs]
         if verS.find('A') != -1:
-            print("Encontre una A")
+            #print("Encontre una A")
             columna_A = xs
             p = 1 
             while p <= cant_ecuaciones:
-                print(f"el valor: {variables[p][columna_A]}, p = {p}, columna_A = {columna_A}")
+                #print(f"el valor: {variables[p][columna_A]}, p = {p}, columna_A = {columna_A}")
                 if variables[p][columna_A] == 1: # si es 1, encontre la fila. p es la fila.
-                    print("Encontre la fial que lleva la A")
+                    #print("Encontre la fial que lleva la A")
                     ar_res = []
                     p2 = 1
                     while p2 < len(variables[0]):
@@ -414,20 +414,21 @@ def Mover_M(variables,cant_ecuaciones,variables_DUAL,cant_ecuacionesD,cant_varia
                 else:
                     p = p + 1
         else:
-            print("No es una A")
+            #print("No es una A")
+            pass
     var = 0
     x = variables_DUAL[0]
     for xs in range(len(x)):
-        print(f"la xs es: {xs}")
+        #print(f"la xs es: {xs}")
         verS = x[xs]
         if verS.find('A') != -1:
-            print("Encontre una A")
+            #print("Encontre una A")
             columna_A = xs
             p = 1 
             while p <= cant_ecuacionesD:
-                print(f"el valor: {variables_DUAL[p][columna_A]}, p = {p}, columna_A = {columna_A}")
+                #print(f"el valor: {variables_DUAL[p][columna_A]}, p = {p}, columna_A = {columna_A}")
                 if variables_DUAL[p][columna_A] == 1: # si es 1, encontre la fila. p es la fila.
-                    print("Encontre la fial que lleva la A")
+                    #print("Encontre la fial que lleva la A")
                     ar_res = []
                     p2 = 1
                     while p2 < len(variables_DUAL[0]):
@@ -438,12 +439,13 @@ def Mover_M(variables,cant_ecuaciones,variables_DUAL,cant_ecuacionesD,cant_varia
                 else:
                     p = p + 1
         else:
-            print("No es una A")
+            #print("No es una A")
+            pass
 
 
-    for i in range(len(variables)):
-        print(variables[i]) 
-    print(variables[cant_ecuaciones+1])
+    #for i in range(len(variables)):
+        #print(variables[i]) 
+    #print(variables[cant_ecuaciones+1])
     s_top = 0
     while(s_top != 1):
         track = variables[-1][1:(cant_variables+1)]
@@ -453,15 +455,15 @@ def Mover_M(variables,cant_ecuaciones,variables_DUAL,cant_ecuacionesD,cant_varia
         pivote = min(track)
         if pivote < 0:
             pos_piv = variables[-1].index(pivote)
-            print(f'más negativo es: {pivote}')
-            print(f'columna del pivote es: {pos_piv}')
+            #print(f'más negativo es: {pivote}')
+            #print(f'columna del pivote es: {pos_piv}')
             col_vdivpc = []
             fila = 1
             while(fila <= cant_ecuaciones):
                 value = variables[fila][cant_variables+1]
                 pivot_colum = variables[fila][pos_piv]
-                print(f'value: {value}')
-                print(f'pivot_colum: {pivot_colum}')
+                #print(f'value: {value}')
+                #print(f'pivot_colum: {pivot_colum}')
                 if pivot_colum > 0 and value != 0:
                     v = value/pivot_colum
                     col_vdivpc.append(v)
@@ -474,7 +476,7 @@ def Mover_M(variables,cant_ecuaciones,variables_DUAL,cant_ecuacionesD,cant_varia
             if clave == 100000000.0:
                 break
             fila_clave =  col_vdivpc.index(clave) + 1
-            print(f'la fila clave: {fila_clave}')
+            #print(f'la fila clave: {fila_clave}')
             op_arr = 1
             #CAMBIAR FILA CLAVE
             s_top_col = 1
@@ -487,7 +489,7 @@ def Mover_M(variables,cant_ecuaciones,variables_DUAL,cant_ecuacionesD,cant_varia
                 if fila_clave != op_arr:
                     piv_col_n = variables[op_arr][pos_piv]
                     if piv_col_n != 0:# debo restarle la columna clave por su piv_col_n
-                        print('Entre a > 0')
+                        #print('Entre a > 0')
                         s_top_col = 1
                         ar_res = []
                         while s_top_col < (len(variables[0])):
@@ -506,8 +508,8 @@ def Mover_M(variables,cant_ecuaciones,variables_DUAL,cant_ecuacionesD,cant_varia
                 else:
                     # estoy en la fila clave.
                     op_arr = op_arr + 1
-            for i in range(len(variables)):
-                print(variables[i]) 
+            #for i in range(len(variables)):
+                #print(variables[i]) 
         else:
             s_top = 1 #hasta que todas las variables(no S ni A) sean no negativas  
 
