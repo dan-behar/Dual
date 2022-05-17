@@ -8,7 +8,20 @@ environment = Environment(loader = templates)
 
 app = Flask(__name__)
 
-global titulos_primal,valores_primal,titulos_primal_p,valores_primal_p,titulos_dual,valores_dual,titulos_dual_p,valores_dual_p
+global titulos_primal
+titulos_primal = []
+global valores_primal
+valores_primal = []
+global titulos_primal_pvalores_primal_p
+titulos_primal_pvalores_primal_p = []
+global titulos_dual
+titulos_dual = []
+global valores_dual
+valores_dual = []
+global titulos_dual_p
+titulos_dual_p = []
+global valores_dual_p
+valores_dual_p = []
 global contar
 contar = 1
 global valx
@@ -50,7 +63,7 @@ def register():
 def ta():
     mssg = "Agregar"
     if request.method == "POST":
-        global valxr, valyr, resr, resur, contar, variables, variables_DUAL
+        global valxr, valyr, resr, resur, contar, titulos_primal,valores_primal,titulos_primal_p,valores_primal_p,titulos_dual,valores_dual,titulos_dual_p,valores_dual_p
         if contar == 1:
             valxr = []
             valyr = []

@@ -1,18 +1,29 @@
 def Ingreso(cant_ecuaciones, problema, signos, vector_x, vector_y, vector_r, X_Intro, Y_Intro, Sig_x, Sig_y):    
+    """
+    Esta funcion recibe los parametros necesarios para construir las matrices primal y dual
+    args:
+        cant_ecuaciones (int): cantidad de ecuaciones
+        problema (int): 1 si es max y 0 si es min
+        signos (int): 1 si es >=, -1 si es <= y 0 si es indif
+        vector_x (arr): agarra las x de las restricciones
+        vector_y (arr): agarra las y de las restricciones
+        vector_r (arr): agarra los resultados de las restricciones
+        Intro_X (int): el coeficiente de X
+        Intro_Y (int): el coeficiente de Y
+        Sig_X (arr): signo de X, 1 si es <=, -1 si es >= y 0 si es =
+        Sig_Y (arr): signo de Y, 1 si es <=, -1 si es >= y 0 si es =
+    returns: (todos son arrays)
+        titulos_primal: titulos del primal
+        valores_primal: valores de la primal 
+        titulos_primal_p: titulos de los precios sombra del primal
+        valores_primal_p: valores sombre de la primal 
+        titulos_dual: titulos del dual
+        valores_dual: valores del dual
+        titulos_dual_p: titulos de los precios sombra del dual
+        valores_dual_p: valores sombre del dual
+    """    
     cant_variables = 2
-    "cant_ecuaciones = 0 DEBE VENIR DE LA FUNCION"
     cant_ecuacionesH = cant_ecuaciones
-    """
-    problema = 0 #DEBE VENIR DE LA FUNCION
-    signos = [] #DEBE VENIR DE LA FUNCION
-    vector_x = [] #DEBE VENIR DE LA FUNCION
-    vector_y = [] #DEBE VENIR DE LA FUNCION
-    vector_r = [] #DEBE VENIR DE LA FUNCION
-    X_Intro = 0 #DEBE VENIR DE LA FUNCION, VALOR X DE LA OBJETIVO
-    Y_Intro = 0 #DEBE VENIR DE LA FUNCION, VALOR Y DE LA OBJETIVO
-    Sig_x = 0 #DEBE VENIR DE LA FUNCION
-    Sig_y = 0 #DEBE VENIR DE LA FUNCION
-    """
 
     if cant_ecuaciones >= cant_variables:
         variables = []
@@ -155,7 +166,6 @@ def Ingreso(cant_ecuaciones, problema, signos, vector_x, vector_y, vector_r, X_I
                                 s = s + 1
                 r = r + 1
             else:
-                #print('Ingrese la funcion objetivo en termino de las n variables especificadas.')
                 variables.append(['Z'])
                 s = 1
                 b = r - extras
@@ -209,7 +219,6 @@ def Ingreso(cant_ecuaciones, problema, signos, vector_x, vector_y, vector_r, X_I
             else:
                 vaas = vaas + 1
                 for t in vector_signos:
-                    #print(t)
                     if t == -1:
                         if problema == 1:
                             variables_DUAL[0].append(f's{var_apar}')
@@ -371,7 +380,6 @@ def Ingreso(cant_ecuaciones, problema, signos, vector_x, vector_y, vector_r, X_I
                     if s <= cant_variablesD:
                         n = variables[fila_D][columna_D+1]
                         fila_D = 1 + fila_D
-                        #print(variables[fila_D][columna_D+1])
                         if problema == 1:
                             n = n * -1
                         n = n * -1
@@ -394,11 +402,12 @@ def Ingreso(cant_ecuaciones, problema, signos, vector_x, vector_y, vector_r, X_I
         #Primal
         titulos_primal = []
         valores_primal = []
-        for i in range(len(variables)):
-            print(variables[i]) 
         for x in range(len(variables)):
             titulos_primal.append(variables[x][0])
-            valores_primal.append(variables[x][cant_variables + 1])
+            if variables[x][cant_variables + 1] != "R":
+                valores_primal.append(int(variables[x][cant_variables + 1]))
+            else:
+                valores_primal.append(variables[x][cant_variables + 1])
         var = 0
         x = variables[0]
         titulos_primal_p = []
@@ -408,76 +417,74 @@ def Ingreso(cant_ecuaciones, problema, signos, vector_x, vector_y, vector_r, X_I
             atras = x[xs-1]
             if (voy.find('a') != -1 or voy.find('s') != -1):
                 if variables[-1][xs] > 1000000:
-                    print(f'Variable: {variables[0][xs]} --- resultado: {1000000 - variables[-1][xs]}')
                     titulos_primal_p.append(variables[0][xs])
-                    valores_primal_p.append(1000000 - variables[-1][xs])
+                    valores_primal_p.append(int(1000000 - variables[-1][xs]))
                 else:
-                    print(f'Variable: {variables[0][xs]} --- resultado: {variables[-1][xs]}')
                     titulos_primal_p.append(variables[0][xs])
-                    valores_primal_p.append(variables[-1][xs])
+                    valores_primal_p.append(int(variables[-1][xs]))
             elif (voy.find('A') != -1 and atras.find('A') != -1):
                 if variables[-1][xs] < 1000000:
-                    print(f'Variable: {variables[0][xs]} --- resultado: {1000000 - variables[-1][xs]}')
                     titulos_primal_p.append(variables[0][xs])
-                    valores_primal_p.append(1000000 - variables[-1][xs])
+                    valores_primal_p.append(int(1000000 - variables[-1][xs]))
                 else:
-                    print(f'Variable: {variables[0][xs]} --- resultado: {variables[-1][xs]}')
                     titulos_primal_p.append(variables[0][xs])
-                    valores_primal_p.append(variables[-1][xs])
+                    valores_primal_p.append(int(variables[-1][xs]))
         #Dual
         variables_DUAL[cant_ecuacionesD+1][cant_variablesD+1] = variables_DUAL[cant_ecuacionesD+1][cant_variablesD+1]*-1
         titulos_dual = []
         valores_dual = []
-        for i in range(len(variables_DUAL)):
-            print(variables_DUAL[i]) 
         for x in range(len(variables_DUAL)):
-            print(f'Variable: {variables_DUAL[x][0]} --- resultado: {variables_DUAL[x][cant_variablesD + 1]}')
             titulos_dual.append(variables_DUAL[x][0])
-            valores_dual.append(variables_DUAL[x][cant_variablesD + 1])
+            if variables_DUAL[x][cant_variablesD + 1] != "R":
+                valores_dual.append(int(variables_DUAL[x][cant_variablesD + 1]))
+            else:
+                valores_dual.append(variables_DUAL[x][cant_variablesD + 1])
         var = 0
         x = variables_DUAL[0]
         titulos_dual_p = []
         valores_dual_p = []
         for xs in range(len(x)):
-        #print(f"la xs es: {xs}")
-        #print(f'Variable: {variables[-1][xs]}')
             voy = x[xs]
             atras = x[xs-1]
             if voy.find('a') != -1 or voy.find('s') != -1:
                 if variables_DUAL[-1][xs] < 1000000:
-                    print(f'Variable: {variables_DUAL[0][xs]} --- resultado: {variables_DUAL[-1][xs]}')
                     titulos_dual_p.append(variables_DUAL[0][xs])
-                    valores_dual_p.append(variables_DUAL[-1][xs])
+                    valores_dual_p.append(int(variables_DUAL[-1][xs]))
                 else:
-                    print(f'Variable: {variables_DUAL[0][xs]} --- resultado: {variables_DUAL[-1][xs] - 1000000}')
                     titulos_dual_p.append(variables_DUAL[0][xs])
-                    valores_dual_p.append(variables_DUAL[-1][xs]- 1000000)
+                    valores_dual_p.append(int(variables_DUAL[-1][xs]- 1000000))
             elif (voy.find('A') != -1 and atras.find('A') != -1):
                 if variables_DUAL[-1][xs] < 1000000:
-                    print(f'Variable: {variables_DUAL[0][xs]} --- resultado: {variables_DUAL[-1][xs]}')
                     titulos_dual_p.append(variables_DUAL[0][xs])
-                    valores_dual_p.append(variables_DUAL[-1][xs])
+                    valores_dual_p.append(int(variables_DUAL[-1][xs]))
                 else:
-                    print(f'Variable: {variables_DUAL[0][xs]} --- resultado: {variables_DUAL[-1][xs] - 1000000}')
                     titulos_dual_p.append(variables_DUAL[0][xs])
-                    valores_dual_p.append(variables_DUAL[-1][xs]- 1000000)
+                    valores_dual_p.append(int(variables_DUAL[-1][xs]- 1000000))
         return titulos_primal,valores_primal,titulos_primal_p,valores_primal_p,titulos_dual,valores_dual,titulos_dual_p,valores_dual_p
 
 
 def Simplex_P(variables,cant_ecuaciones,variables_DUAL,cant_ecuacionesD,cant_variables,problema):
+    """
+    Esta funcion recibe los parametros necesarios para operar simplex primal y mueve las M de todas
+    args:
+        variables (arr): matriz primal
+        cant_ecuaciones (int): cantidad de ecuaciones primal
+        variables_dual (arr): matriz dual
+        cant_ecuacionesD (int): cantidad de ecuaciones dual
+        cant_variables (int): cantidad de variables en total
+        problema (int): 1 si es max y 0 si es min
+    returns: 
+        solo opera en los arrays, no retorna nada
+    """   
     var = 0
     x = variables[0]
     for xs in range(len(x)):
-        #print(f"la xs es: {xs}")
         verS = x[xs]
         if verS.find('A') != -1:
-            #print("Encontre una A")
             columna_A = xs
             p = 1 
             while p <= cant_ecuaciones:
-                #print(f"el valor: {variables[p][columna_A]}, p = {p}, columna_A = {columna_A}")
                 if variables[p][columna_A] == 1: # si es 1, encontre la fila. p es la fila.
-                    #print("Encontre la fial que lleva la A")
                     ar_res = []
                     p2 = 1
                     while p2 < len(variables[0]):
@@ -488,21 +495,16 @@ def Simplex_P(variables,cant_ecuaciones,variables_DUAL,cant_ecuacionesD,cant_var
                 else:
                     p = p + 1
         else:
-            #print("No es una A")
             pass
     var = 0
     x = variables_DUAL[0]
     for xs in range(len(x)):
-        #print(f"la xs es: {xs}")
         verS = x[xs]
         if verS.find('A') != -1:
-            #print("Encontre una A")
             columna_A = xs
             p = 1 
             while p <= cant_ecuacionesD:
-                #print(f"el valor: {variables_DUAL[p][columna_A]}, p = {p}, columna_A = {columna_A}")
                 if variables_DUAL[p][columna_A] == 1: # si es 1, encontre la fila. p es la fila.
-                    #print("Encontre la fial que lleva la A")
                     ar_res = []
                     p2 = 1
                     while p2 < len(variables_DUAL[0]):
@@ -513,13 +515,9 @@ def Simplex_P(variables,cant_ecuaciones,variables_DUAL,cant_ecuacionesD,cant_var
                 else:
                     p = p + 1
         else:
-            #print("No es una A")
             pass
 
 
-    #for i in range(len(variables)):
-        #print(variables[i]) 
-    #print(variables[cant_ecuaciones+1])
     s_top = 0
     while(s_top != 1):
         track = variables[-1][1:(cant_variables+1)]
@@ -529,15 +527,11 @@ def Simplex_P(variables,cant_ecuaciones,variables_DUAL,cant_ecuacionesD,cant_var
         pivote = min(track)
         if pivote < 0:
             pos_piv = variables[-1].index(pivote)
-            #print(f'más negativo es: {pivote}')
-            #print(f'columna del pivote es: {pos_piv}')
             col_vdivpc = []
             fila = 1
             while(fila <= cant_ecuaciones):
                 value = variables[fila][cant_variables+1]
                 pivot_colum = variables[fila][pos_piv]
-                #print(f'value: {value}')
-                #print(f'pivot_colum: {pivot_colum}')
                 if pivot_colum > 0 and value != 0:
                     v = value/pivot_colum
                     col_vdivpc.append(v)
@@ -550,7 +544,6 @@ def Simplex_P(variables,cant_ecuaciones,variables_DUAL,cant_ecuacionesD,cant_var
             if clave == 100000000.0:
                 break
             fila_clave =  col_vdivpc.index(clave) + 1
-            #print(f'la fila clave: {fila_clave}')
             op_arr = 1
             #CAMBIAR FILA CLAVE
             s_top_col = 1
@@ -563,27 +556,21 @@ def Simplex_P(variables,cant_ecuaciones,variables_DUAL,cant_ecuacionesD,cant_var
                 if fila_clave != op_arr:
                     piv_col_n = variables[op_arr][pos_piv]
                     if piv_col_n != 0:# debo restarle la columna clave por su piv_col_n
-                        #print('Entre a > 0')
                         s_top_col = 1
                         ar_res = []
                         while s_top_col < (len(variables[0])):
                             ar_res.append(variables[fila_clave][s_top_col] * piv_col_n)
                             s_top_col = s_top_col + 1 
-                        #print(f'este es el ar_res: {ar_res}')
                         s_top_col = 1
                         while s_top_col < (len(variables[0])):
                             variables[op_arr][s_top_col] = variables[op_arr][s_top_col] - ar_res[s_top_col-1]
-                            #variables[op_arr][s_top_col] = round(variables[op_arr][s_top_col], 5)
                             s_top_col = s_top_col + 1 
                         op_arr = op_arr + 1
                     else:
                         op_arr = op_arr + 1
                         pass # esa fila no cambia, se queda igual
                 else:
-                    # estoy en la fila clave.
                     op_arr = op_arr + 1
-            #for i in range(len(variables)):
-                #print(variables[i]) 
         else:
             s_top = 1 #hasta que todas las variables(no S ni A) sean no negativas  
 
@@ -591,11 +578,6 @@ def Simplex_P(variables,cant_ecuaciones,variables_DUAL,cant_ecuacionesD,cant_var
         variables[-1][cant_variables + 1] = variables[-1][cant_variables + 1] * -1 
 
 def Simplex_D(variables_DUAL,cant_ecuacionesD,cant_variablesD,problema):
-  #cant_ecuacionesD
-  #cant_variablesD
-  #for i in range(len(variables_DUAL)):
-      #print(variables_DUAL[i]) 
-  #print(variables_DUAL[cant_ecuacionesD+1])
   s_top = 0
   while(s_top != 1):
     track = variables_DUAL[-1][1:(cant_variablesD+1)]
@@ -605,15 +587,11 @@ def Simplex_D(variables_DUAL,cant_ecuacionesD,cant_variablesD,problema):
     pivote = min(track)
     if pivote < 0:
       pos_piv = variables_DUAL[-1].index(pivote)
-      #print(f'más negativo es: {pivote}')
-      #print(f'columna del pivote es: {pos_piv}')
       col_vdivpc = []
       fila = 1
       while(fila <= cant_ecuacionesD):
         value = variables_DUAL[fila][cant_variablesD+1]
         pivot_colum = variables_DUAL[fila][pos_piv]
-        #print(f'value: {value}')
-        #print(f'pivot_colum: {pivot_colum}')
         if pivot_colum > 0 and value != 0:
           v = value/pivot_colum
           col_vdivpc.append(v)
@@ -623,44 +601,35 @@ def Simplex_D(variables_DUAL,cant_ecuacionesD,cant_variablesD,problema):
         else:
           col_vdivpc.append(100000000.0)
         fila = fila + 1
-      #print(col_vdivpc)
       clave = col_vdivpc[0]
       for i in range(1,len(col_vdivpc)):
         clave = min(clave, col_vdivpc[i])
-        #print(f'este va siendo el clave despues de comparar {clave}')
       #AQUI VA LO DE BUSCAR LA QUE GENERE MENOS NEGATIVOS
       #...
       #----------
       if clave == 100000000.0:
         break
       fila_clave =  col_vdivpc.index(clave) + 1
-      #print(f'la fila clave: {fila_clave}')
       op_arr = 1
       #CAMBIAR FILA CLAVE
       s_top_col = 1
       fac_div_clave = variables_DUAL[fila_clave][pos_piv]
       while s_top_col < (len(variables_DUAL[0])):
-        #print(f'divido {variables[fila_clave][s_top_col]} dentro de: {fac_div}')
         variables_DUAL[fila_clave][s_top_col] = variables_DUAL[fila_clave][s_top_col] / fac_div_clave
         s_top_col = s_top_col + 1
-      #print(variables_DUAL[fila_clave])
       variables_DUAL[fila_clave][0] = variables_DUAL[0][pos_piv]
       while op_arr <= cant_ecuacionesD+1:
-        #print(f'el op_arr: {op_arr}')
         if fila_clave != op_arr:
           piv_col_n = variables_DUAL[op_arr][pos_piv]
           if piv_col_n != 0:# debo restarle la columna clave por su piv_col_n
-            #print('Entre a > 0')
             s_top_col = 1
             ar_res = []
             while s_top_col < (len(variables_DUAL[0])):
               ar_res.append(variables_DUAL[fila_clave][s_top_col] * piv_col_n)
               s_top_col = s_top_col + 1 
-            #print(f'este es el ar_res: {ar_res}')
             s_top_col = 1
             while s_top_col < (len(variables_DUAL[0])):
               variables_DUAL[op_arr][s_top_col] = variables_DUAL[op_arr][s_top_col] - ar_res[s_top_col-1]
-              #variables[op_arr][s_top_col] = round(variables[op_arr][s_top_col], 5)
               s_top_col = s_top_col + 1 
             op_arr = op_arr + 1
           else:
@@ -669,10 +638,18 @@ def Simplex_D(variables_DUAL,cant_ecuacionesD,cant_variablesD,problema):
         else:
           # estoy en la fila clave.
           op_arr = op_arr + 1
-      #for i in range(len(variables_DUAL)):
-        #print(variables_DUAL[i]) 
     else:
       s_top = 1 #hasta que todas las variables(no S ni A) sean no negativas  
 
   if problema == 0:
     variables_DUAL[-1][cant_variablesD + 1] = variables_DUAL[-1][cant_variablesD + 1] * -1
+    """
+    Esta funcion recibe los parametros necesarios para operar simplex primal y mueve las M de todas
+    args:
+        variables_dual (arr): matriz dual
+        cant_ecuacionesD (int): cantidad de ecuaciones dual
+        cant_variablesD (int): cantidad de variables dual
+        problema (int): 1 si es max y 0 si es min
+    returns: 
+        solo opera en los arrays, no retorna nada
+    """ 
