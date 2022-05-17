@@ -391,7 +391,77 @@ def Ingreso(cant_ecuaciones, problema, signos, vector_x, vector_y, vector_r, X_I
                 r = r + 1
         Simplex_P(variables,cant_ecuaciones,variables_DUAL,cant_ecuacionesD,cant_variables,problema)
         Simplex_D(variables_DUAL,cant_ecuacionesD,cant_variablesD,problema)
-        return variables,variables_DUAL
+        #Primal
+        titulos_primal = []
+        valores_primal = []
+        for i in range(len(variables)):
+            print(variables[i]) 
+        for x in range(len(variables)):
+            titulos_primal.append(variables[x][0])
+            valores_primal.append(variables[x][cant_variables + 1])
+        var = 0
+        x = variables[0]
+        titulos_primal_p = []
+        valores_primal_p = []
+        for xs in range(len(x)):
+            voy = x[xs]
+            atras = x[xs-1]
+            if (voy.find('a') != -1 or voy.find('s') != -1):
+                if variables[-1][xs] > 1000000:
+                    print(f'Variable: {variables[0][xs]} --- resultado: {1000000 - variables[-1][xs]}')
+                    titulos_primal_p.append(variables[0][xs])
+                    valores_primal_p.append(1000000 - variables[-1][xs])
+                else:
+                    print(f'Variable: {variables[0][xs]} --- resultado: {variables[-1][xs]}')
+                    titulos_primal_p.append(variables[0][xs])
+                    valores_primal_p.append(variables[-1][xs])
+            elif (voy.find('A') != -1 and atras.find('A') != -1):
+                if variables[-1][xs] < 1000000:
+                    print(f'Variable: {variables[0][xs]} --- resultado: {1000000 - variables[-1][xs]}')
+                    titulos_primal_p.append(variables[0][xs])
+                    valores_primal_p.append(1000000 - variables[-1][xs])
+                else:
+                    print(f'Variable: {variables[0][xs]} --- resultado: {variables[-1][xs]}')
+                    titulos_primal_p.append(variables[0][xs])
+                    valores_primal_p.append(variables[-1][xs])
+        #Dual
+        variables_DUAL[cant_ecuacionesD+1][cant_variablesD+1] = variables_DUAL[cant_ecuacionesD+1][cant_variablesD+1]*-1
+        titulos_dual = []
+        valores_dual = []
+        for i in range(len(variables_DUAL)):
+            print(variables_DUAL[i]) 
+        for x in range(len(variables_DUAL)):
+            print(f'Variable: {variables_DUAL[x][0]} --- resultado: {variables_DUAL[x][cant_variablesD + 1]}')
+            titulos_dual.append(variables_DUAL[x][0])
+            valores_dual.append(variables_DUAL[x][cant_variablesD + 1])
+        var = 0
+        x = variables_DUAL[0]
+        titulos_dual_p = []
+        valores_dual_p = []
+        for xs in range(len(x)):
+        #print(f"la xs es: {xs}")
+        #print(f'Variable: {variables[-1][xs]}')
+            voy = x[xs]
+            atras = x[xs-1]
+            if voy.find('a') != -1 or voy.find('s') != -1:
+                if variables_DUAL[-1][xs] < 1000000:
+                    print(f'Variable: {variables_DUAL[0][xs]} --- resultado: {variables_DUAL[-1][xs]}')
+                    titulos_dual_p.append(variables_DUAL[0][xs])
+                    valores_dual_p.append(variables_DUAL[-1][xs])
+                else:
+                    print(f'Variable: {variables_DUAL[0][xs]} --- resultado: {variables_DUAL[-1][xs] - 1000000}')
+                    titulos_dual_p.append(variables_DUAL[0][xs])
+                    valores_dual_p.append(variables_DUAL[-1][xs]- 1000000)
+            elif (voy.find('A') != -1 and atras.find('A') != -1):
+                if variables_DUAL[-1][xs] < 1000000:
+                    print(f'Variable: {variables_DUAL[0][xs]} --- resultado: {variables_DUAL[-1][xs]}')
+                    titulos_dual_p.append(variables_DUAL[0][xs])
+                    valores_dual_p.append(variables_DUAL[-1][xs])
+                else:
+                    print(f'Variable: {variables_DUAL[0][xs]} --- resultado: {variables_DUAL[-1][xs] - 1000000}')
+                    titulos_dual_p.append(variables_DUAL[0][xs])
+                    valores_dual_p.append(variables_DUAL[-1][xs]- 1000000)
+        return titulos_primal,valores_primal,titulos_primal_p,valores_primal_p,titulos_dual,valores_dual,titulos_dual_p,valores_dual_p
 
 
 def Simplex_P(variables,cant_ecuaciones,variables_DUAL,cant_ecuacionesD,cant_variables,problema):

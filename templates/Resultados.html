@@ -2,36 +2,79 @@
 
 {% block body %}
 
-  <!-- Resumen -->
+  <!-- Resumen titulos_primal,valores_primal,titulos_primal_p,valores_primal_p,titulos_dual,valores_dual,titulos_dual_p,valores_dual_p--> 
   <div class="w3-container" id="Resumen" style="margin-top:75px">
-    <h1 class="w3-xxxlarge w3-text-red"><strong>Resultados</strong></h1>
+    <h1 class="w3-xxxlarge w3-text-red"><strong>Resultados Primal</strong></h1>
     <hr style="width:50px;border:5px solid red" class="w3-round">
-    <form method="POST" action="">
-      <div class="table">
+    <div class="table">
         <table id="t01">
         <tr>
-          {% for j in variables %}
-            <th id="info">{{variable[0][j]}}</th>
+          {% for j in titulos_primal %}
+            <th id="info">{{j}}</th>
           {% endfor %}
         </tr>
         <tr>
-          <td><input type="text" placeholder="Valor X" required="" id="valxr" name="valxr"/></td>
-          <td><input type="text" placeholder="Valor Y" required="" id="valyr" name="valyr"/></td>
-          <td><select name="resr" id="resr">
-            <option value="<=">Mayor igual que</option>
-            <option value=">=">Menor igual que</option>
-            <option value="=">Igual que</option>
-          </select></td>
-          <td><input type="text" placeholder="Resultado" required="" id="resur" name="resur"/></td>
+          {% for j in valores_primal %}
+            <td id="info">{{j}}</td>
+          {% endfor %}
         </tr>
       </table>
-      </div>
-      <div>
-        <a href="/restr">
-        <input type="submit" value="{{mssg}}" />
-        </a>
-      </div>
-    </form>
+    </div>
+  </div>
+  <div class="w3-container" id="Resumen" style="margin-top:75px">
+    <h1 class="w3-xxxlarge w3-text-red"><strong>Resultados Primal precios sobra</strong></h1>
+    <hr style="width:50px;border:5px solid red" class="w3-round">
+    <div class="table">
+        <table id="t01">
+        <tr>
+          {% for j in titulos_primal_p %}
+            <th id="info">{{j}}</th>
+          {% endfor %}
+        </tr>
+        <tr>
+          {% for j in valores_primal_p %}
+            <td id="info">{{j}}</td>
+          {% endfor %}
+        </tr>
+      </table>
+    </div>
+  </div>
+  <br><br>
+  <div class="w3-container" id="Resumen" style="margin-top:75px">
+    <h1 class="w3-xxxlarge w3-text-red"><strong>Resultados Dual</strong></h1>
+    <hr style="width:50px;border:5px solid red" class="w3-round">
+    <div class="table">
+        <table id="t01">
+        <tr>
+          {% for j in titulos_dual %}
+            <th id="info">{{j}}</th>
+          {% endfor %}
+        </tr>
+        <tr>
+          {% for j in valores_dual %}
+            <td id="info">{{j}}</td>
+          {% endfor %}
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="w3-container" id="Resumen" style="margin-top:75px">
+    <h1 class="w3-xxxlarge w3-text-red"><strong>Resultados Dual precios sobra</strong></h1>
+    <hr style="width:50px;border:5px solid red" class="w3-round">
+    <div class="table">
+        <table id="t01">
+        <tr>
+          {% for j in titulos_dual_p %}
+            <th id="info">{{j}}</th>
+          {% endfor %}
+        </tr>
+        <tr>
+          {% for j in valores_dual_p %}
+            <td id="info">{{j}}</td>
+          {% endfor %}
+        </tr>
+      </table>
+    </div>
   </div>
 
 {% endblock %} 

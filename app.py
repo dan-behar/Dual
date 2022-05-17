@@ -8,10 +8,7 @@ environment = Environment(loader = templates)
 
 app = Flask(__name__)
 
-global variables
-variables = 0
-global variables_DUAL
-variables_DUAL = 0
+global titulos_primal,valores_primal,titulos_primal_p,valores_primal_p,titulos_dual,valores_dual,titulos_dual_p,valores_dual_p
 global contar
 contar = 1
 global valx
@@ -73,20 +70,16 @@ def ta():
             return render_template("Restricciones.html",mssg=mssg, contar=contar)
         else:
             contar = 1
-            variables,variables_DUAL = Ingreso(res,oper,resr,valxr,valyr,resur,valx,valy,resx,resy)
-            print(variables)
-            print(variables_DUAL)
+            titulos_primal,valores_primal,titulos_primal_p,valores_primal_p,titulos_dual,valores_dual,titulos_dual_p,valores_dual_p = Ingreso(res,oper,resr,valxr,valyr,resur,valx,valy,resx,resy)
+            
             return redirect("/resultado", 301)
     return render_template("Restricciones.html",mssg=mssg, contar=contar)
 
 
 @app.route("/resultado", methods=["GET", "POST"])
 def resultado():
-    global variables, variables_DUAL
-    
-    
-
-    return render_template("rango.html", )
+    global titulos_primal,valores_primal,titulos_primal_p,valores_primal_p,titulos_dual,valores_dual,titulos_dual_p,valores_dual_p
+    return render_template("Resultados.html", titulos_primal=titulos_primal,valores_primal=valores_primal,titulos_primal_p=titulos_primal_p,valores_primal_p=valores_primal_p,titulos_dual=titulos_dual,valores_dual=valores_dual,titulos_dual_p=titulos_dual_p,valores_dual_p=valores_dual_p)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0",debug=True)
